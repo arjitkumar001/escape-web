@@ -602,7 +602,7 @@ export default function Dashboard() {
               Frequently Asked Questions
             </Typography>
             {/* accordian */}
-            <Box sx={{px:{xs:6,sm:10,md:20},mt:4}}>
+            <Box sx={{px:{xs:5,sm:10,md:20},mt:4}}>
               {data.map((item, index) => (
                 <Accordion sx={{bgcolor:"transparent",boxShadow:"none"}}>
                   <AccordionSummary
