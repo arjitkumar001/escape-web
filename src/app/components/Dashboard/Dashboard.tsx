@@ -152,8 +152,9 @@ export default function Dashboard() {
         />
         <Typography
           sx={{
-            fontSize: { xs: "24px", sm: "32px", md: "50px" },
+            fontSize: { xs: "24px", sm: "32px", md: "48px" },
             fontWeight: 700,
+            px:{xs:0,sm:4,md:8}
           }}
         >
           Discover Africa's Magic{" "}
@@ -246,7 +247,7 @@ export default function Dashboard() {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ bgcolor: "#FFE9DA", p: { xs: 4, sm: 6, md: 10 } }}>
+      <Box sx={{ bgcolor: "#FFE9DA", px: { xs: 2,sm:2,md:4 },py: { xs: 4, sm: 6, md: 10 } }}>
         <Typography
           sx={{
             color: "#E23A1C",
@@ -257,9 +258,9 @@ export default function Dashboard() {
         >
           Hot Deals Right Now
         </Typography>
-        <Grid mt={2} container spacing={4} sx={{}}>
+        <Grid mt={2} container spacing={4}>
           {cardData.map((item, index) => (
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Card sx={{ boxShadow: "0px 1px 1px gray" }}>
                 <CardMedia
                   component="img"
@@ -348,7 +349,7 @@ export default function Dashboard() {
         </Typography>
         <Grid mt={2} container spacing={4} sx={{}}>
           {cardData1.map((item, index) => (
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Card
                 sx={{ boxShadow: "0px 1px 1px gray", borderRadius: "10px" }}
               >
@@ -414,7 +415,7 @@ export default function Dashboard() {
         </Typography>
         <Grid mt={2} container spacing={4} sx={{}}>
           {cardData2.map((item, index) => (
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Card
                 sx={{
                   boxShadow: "0px 1px 1px gray",
@@ -437,7 +438,7 @@ export default function Dashboard() {
                     sx={{
                       display: "flex",
                       alignItems: "center",
-                      gap: "20px",
+                      gap: "10px",
                       mt: 2,
                     }}
                   >
@@ -522,7 +523,7 @@ export default function Dashboard() {
                 boxShadow: "none",
                 borderRadius: "10px",
                 textAlign: "justify",
-                width: { xs: "100%", sm: "50%", md: "40%" },
+                width: { xs: "100%", sm: "100%", md: "50%",lg:"50%" },
                 border: "1px solid lightgray",
               }}
             >
@@ -552,24 +553,24 @@ export default function Dashboard() {
                   }}
                 >
                   <Typography
-                    sx={{ color: "#FF5D00", fontSize: "14px", fontWeight: 600 }}
+                    sx={{ color: "#09090b", fontSize: "14px", fontWeight: 600,display:"flex",alignItems:"center",gap:"5px" }}
                   >
                     <MdOutlineLightMode
                       size={18}
                       style={{ color: "#FF5D00" }}
-                    />{" "}
+                    />
                     Weekly African deal alerts
                   </Typography>
                   <Typography
-                    sx={{ fontWeight: "bold", color: "gray", fontSize: "14px" }}
+                    sx={{ fontWeight: "bold", color: "#09090b", fontSize: "14px",display:"flex",alignItems:"center",gap:"5px" }}
                   >
-                    <LuPalmtree size={18} style={{ color: "#FF5D00" }} />{" "}
+                    <LuPalmtree size={18} style={{ color: "#FF5D00" }} />
                     Customizable destination preferences
                   </Typography>
                   <Typography
-                    sx={{ fontWeight: "bold", color: "gray", fontSize: "14px" }}
+                    sx={{ fontWeight: "bold", color: "#09090b", fontSize: "14px",display:"flex",alignItems:"center",gap:"5px" }}
                   >
-                    <IoCameraOutline size={18} style={{ color: "#FF5D00" }} />{" "}
+                    <IoCameraOutline size={18} style={{ color: "#FF5D00" }} />
                     Access to African travel guides
                   </Typography>
                 </Box>
@@ -602,7 +603,7 @@ export default function Dashboard() {
               Frequently Asked Questions
             </Typography>
             {/* accordian */}
-            <Box sx={{px:{xs:5,sm:10,md:20},mt:4}}>
+            <Box sx={{px:{xs:0,sm:0,md:10,lg:20},mt:4}}>
               {data.map((item, index) => (
                 <Accordion sx={{bgcolor:"transparent",boxShadow:"none"}}>
                   <AccordionSummary
