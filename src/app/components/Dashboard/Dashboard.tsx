@@ -126,6 +126,9 @@ export default function Dashboard() {
             size="small"
             placeholder="Enter your email"
             sx={{ bgcolor: "white" }}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Button
             variant="contained"
@@ -135,6 +138,7 @@ export default function Dashboard() {
               background: "linear-gradient(to left,red 0%, yellow 190%)",
               fontWeight: "bold",
             }}
+            onClick={handleSendRequest}
           >
             Get Alerts
           </Button>
@@ -620,10 +624,8 @@ export default function Dashboard() {
           <TextField
             size="small"
             type="email"
-            value={email}
             placeholder="Enter your email"
             sx={{ bgcolor: "white", borderRadius: "5px" }}
-            onChange={(e) => setEmail(e.target.value)}
           />
           <Button
             variant="contained"
@@ -635,7 +637,6 @@ export default function Dashboard() {
               color: "#FF5D00",
               fontWeight: "bold",
             }}
-            onClick={handleSendRequest}
           >
             Get Started
           </Button>

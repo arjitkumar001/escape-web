@@ -1,10 +1,11 @@
 // lib/axiosInstance.ts
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 // Create an Axios instance
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL, // Define your base API URL in environment variables
+  //   baseURL: process.env.NEXT_PUBLIC_API_URL, // Define your base API URL in environment variables
+  baseURL: `http://116.202.210.102:8059`,
   timeout: 10000, // Set a timeout for requests
 });
 
@@ -12,9 +13,9 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Modify request configuration (e.g., add authentication token)
-    const token = localStorage.getItem('token'); // Or wherever you store the token
+    const token = localStorage.getItem("token"); // Or wherever you store the token
     if (token && config.headers) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
 
     return config;
@@ -35,7 +36,7 @@ axiosInstance.interceptors.response.use(
     // Handle the response error
     if (error.response?.status === 401) {
       // For example, handle 401 unauthorized errors by redirecting to the login page
-      window.location.href = '/login';
+      window.location.href = "/login";
     }
 
     return Promise.reject(error);
