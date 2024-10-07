@@ -4,8 +4,8 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 // Create an Axios instance
 const axiosInstance: AxiosInstance = axios.create({
-  //   baseURL: process.env.NEXT_PUBLIC_API_URL, // Define your base API URL in environment variables
-  baseURL: `https://116.202.210.102:8059`,
+    baseURL: process.env.NEXT_PUBLIC_API_URL, // Define your base API URL in environment variables
+//   baseURL: `https://116.202.210.102:8059`,
   timeout: 10000, // Set a timeout for requests
 });
 
