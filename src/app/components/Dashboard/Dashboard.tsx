@@ -1,22 +1,19 @@
+"use client";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Avatar,
   Box,
   Button,
   Card,
-  CardActions,
   CardContent,
-  CardHeader,
   CardMedia,
   Chip,
   Grid,
-  IconButton,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
-import shadows from "@mui/material/styles/shadows";
 import { FaStar } from "react-icons/fa";
 import { FiDollarSign } from "react-icons/fi";
 import { FiUsers } from "react-icons/fi";
@@ -26,113 +23,51 @@ import { MdOutlineLightMode } from "react-icons/md";
 import { LuPalmtree } from "react-icons/lu";
 import { IoCameraOutline } from "react-icons/io5";
 import { MdExpandMore } from "react-icons/md";
+import axios from "axios";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { RestUrlsConstants } from "@/constant/rest-url.constant";
+import axiosInstance from "@/app/lib/axios";
+import { cardData, cardData1, cardData2, data } from "@/app/Utils/DataList";
+
+interface snackBarState {
+  open: boolean;
+  message: string;
+}
 
 export default function Dashboard() {
-  const cardData = [
-    {
-      heading: "Serengeti Safari",
-      description: "5-day luxury safari experience",
-      amount: "$1,799",
-      discount: "40% OFF",
-    },
-    {
-      heading: "Zanzibar Beach Retreat",
-      description: "7 nights in a beachfront resort",
-      amount: "$899",
-      discount: "35% OFF",
-    },
-    {
-      heading: "Cape Town Adventure",
-      description: "6-day city and wildlife tour",
-      amount: "$1,299",
-      discount: "30% OFF",
-    },
-  ];
-  const cardData1 = [
-    {
-      heading: "Instant African Deals",
-      description:
-        "Get real-time alerts for the best African travel deals, tailored to your preferences.",
-      icon: <PiBell size={40} style={{ color: "#FF5D00" }} />,
-    },
-    {
-      heading: "Unbeatable Savings",
-      description:
-        "Our users save an average of 40% on African safaris, tours, and accommodations.",
-      icon: <FiDollarSign size={40} style={{ color: "#FF5D00" }} />,
-    },
-    {
-      heading: "Curated Experiences",
-      description:
-        "Discover hand-picked, authentic African experiences you won't find anywhere else.",
-      icon: <FaRegStar size={40} style={{ color: "#FF5D00" }} />,
-    },
-  ];
-  const cardData2 = [
-    {
-      name: "Sarah T.",
-      email: "@saraht_traveler",
-      description:
-        "AfricanEscapes revolutionized my travel planning! I saved over $1,000 on my dream safari. It's a game-changer for adventure seekers.",
-    },
-    {
-      name: "Mike R.",
-      email: "@mikeroams",
-      description:
-        "This is the best thing since sliced bread for African travel. I can't believe I didn't discover it sooner!",
-    },
-    {
-      name: "Emily L.",
-      email: "@em_adventures",
-      description:
-        "AfricanEscapes made my bucket-list trip to Victoria Falls a reality. Their deals are unbeatable!",
-    },
-    {
-      name: "Alex K.",
-      email: "@alexkwanderer",
-      description:
-        "I've explored hidden gems in Morocco I never knew existed. AfricanEscapes opened up a whole new world of travel for me.",
-    },
-    {
-      name: "Joshua M.",
-      email: "@joshuaexplores",
-      description:
-        "Perfect for budget travelers who don't want to compromise on experiences. I'm hooked!",
-    },
-    {
-      name: "Samantha P.",
-      email: "@sam_globetrotter",
-      description:
-        "The personalized alerts are spot-on. I've never traveled so much for so little. Absolutely recommend!",
-    },
-  ];
-  const data = [
-    {
-      heading: "How do I get started with AfricanEscapes?",
-      detail:
-        "Simply sign up for our free Explorer Plan by entering your email address. You'll start receiving weekly deal alerts tailored to your preferences for African travel experiences.",
-    },
-    {
-      heading: "Are the deals exclusive to AfricanEscapes?",
-      detail:
-        "Many of our deals are exclusive to AfricanEscapes members. We negotiate directly with travel providers to secure the best possible prices for our community.",
-    },
-    {
-      heading: "How much can I expect to save on African travel?",
-      detail:
-        "Our users typically save between 20-50% on their African travel experiences. Some deals offer even higher discounts for last-minute bookings or off-season travel.",
-    },
-    {
-      heading: "Can I customize the types of deals I receive?",
-      detail:
-        "Yes! After signing up, you can set your preferences for destinations, types of experiences (e.g., safaris, beach holidays, cultural tours), and budget range. We'll tailor our alerts to match your interests.",
-    },
-    {
-      heading: "Is my personal information safe with AfricanEscapes?",
-      detail:
-        "Absolutely. We take data privacy seriously and adhere to strict security protocols. Your personal information is never shared or sold to third parties. You can review our privacy policy for more details.",
-    },
-  ];
+  const router=useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [snackBar, setSnackBar] = useState<snackBarState>({
+    open: false,
+    message: "",
+  });
+  const handleClose = () => {
+    setSnackBar({ open: false,message:"" });
+  };
+
+   const handleSendRequest = async () => {
+    try {
+      const res = await axiosInstance.post(RestUrlsConstants.email_verification,
+        {
+          email_id: email,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.status) {
+        setSnackBar({ open: true,message:res?.data?.message });
+        router.push("/UserDetail")
+      }
+      // return response.data;
+    } catch (error:any) {
+      console.log(error);
+      setSnackBar({ open: true,message:error?.response?.data?.message });
+    }
+  };
   return (
     <>
       <Box
@@ -154,7 +89,7 @@ export default function Dashboard() {
           sx={{
             fontSize: { xs: "24px", sm: "32px", md: "48px" },
             fontWeight: 700,
-            px:{xs:0,sm:4,md:8}
+            px: { xs: 0, sm: 4, md: 8 },
           }}
         >
           Discover Africa's Magic{" "}
@@ -247,7 +182,13 @@ export default function Dashboard() {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ bgcolor: "#FFE9DA", px: { xs: 2,sm:2,md:4 },py: { xs: 4, sm: 6, md: 10 } }}>
+      <Box
+        sx={{
+          bgcolor: "#FFE9DA",
+          px: { xs: 2, sm: 2, md: 4 },
+          py: { xs: 4, sm: 6, md: 10 },
+        }}
+      >
         <Typography
           sx={{
             color: "#E23A1C",
@@ -260,7 +201,7 @@ export default function Dashboard() {
         </Typography>
         <Grid mt={2} container spacing={4}>
           {cardData.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid key={index} item xs={12} sm={6} md={4}>
               <Card sx={{ boxShadow: "0px 1px 1px gray" }}>
                 <CardMedia
                   component="img"
@@ -349,7 +290,7 @@ export default function Dashboard() {
         </Typography>
         <Grid mt={2} container spacing={4} sx={{}}>
           {cardData1.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid key={index} item xs={12} sm={6} md={4}>
               <Card
                 sx={{ boxShadow: "0px 1px 1px gray", borderRadius: "10px" }}
               >
@@ -415,7 +356,7 @@ export default function Dashboard() {
         </Typography>
         <Grid mt={2} container spacing={4} sx={{}}>
           {cardData2.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid key={index} item xs={12} sm={6} md={4}>
               <Card
                 sx={{
                   boxShadow: "0px 1px 1px gray",
@@ -523,7 +464,7 @@ export default function Dashboard() {
                 boxShadow: "none",
                 borderRadius: "10px",
                 textAlign: "justify",
-                width: { xs: "100%", sm: "100%", md: "50%",lg:"50%" },
+                width: { xs: "100%", sm: "100%", md: "50%", lg: "50%" },
                 border: "1px solid lightgray",
               }}
             >
@@ -553,7 +494,14 @@ export default function Dashboard() {
                   }}
                 >
                   <Typography
-                    sx={{ color: "#09090b", fontSize: "14px", fontWeight: 600,display:"flex",alignItems:"center",gap:"5px" }}
+                    sx={{
+                      color: "#09090b",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
                   >
                     <MdOutlineLightMode
                       size={18}
@@ -562,13 +510,27 @@ export default function Dashboard() {
                     Weekly African deal alerts
                   </Typography>
                   <Typography
-                    sx={{ fontWeight: "bold", color: "#09090b", fontSize: "14px",display:"flex",alignItems:"center",gap:"5px" }}
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#09090b",
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
                   >
                     <LuPalmtree size={18} style={{ color: "#FF5D00" }} />
                     Customizable destination preferences
                   </Typography>
                   <Typography
-                    sx={{ fontWeight: "bold", color: "#09090b", fontSize: "14px",display:"flex",alignItems:"center",gap:"5px" }}
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#09090b",
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
                   >
                     <IoCameraOutline size={18} style={{ color: "#FF5D00" }} />
                     Access to African travel guides
@@ -603,18 +565,25 @@ export default function Dashboard() {
               Frequently Asked Questions
             </Typography>
             {/* accordian */}
-            <Box sx={{px:{xs:0,sm:0,md:10,lg:20},mt:4}}>
+            <Box sx={{ px: { xs: 0, sm: 0, md: 10, lg: 20 }, mt: 4 }}>
               {data.map((item, index) => (
-                <Accordion sx={{bgcolor:"transparent",boxShadow:"none"}}>
+                <Accordion
+                  key={index}
+                  sx={{ bgcolor: "transparent", boxShadow: "none" }}
+                >
                   <AccordionSummary
                     expandIcon={<MdExpandMore />}
                     aria-controls="panel1-content"
                     id="panel1-header"
-                    sx={{color:"black",fontWeight:"600"}}
+                    sx={{ color: "black", fontWeight: "600" }}
                   >
                     {item.heading}
                   </AccordionSummary>
-                  <AccordionDetails sx={{textAlign:"justify",color:"gray"}}>{item.detail}</AccordionDetails>
+                  <AccordionDetails
+                    sx={{ textAlign: "justify", color: "gray" }}
+                  >
+                    {item.detail}
+                  </AccordionDetails>
                 </Accordion>
               ))}
             </Box>
@@ -650,23 +619,36 @@ export default function Dashboard() {
         >
           <TextField
             size="small"
+            type="email"
+            value={email}
             placeholder="Enter your email"
             sx={{ bgcolor: "white", borderRadius: "5px" }}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Button
             variant="contained"
             color="warning"
             sx={{
               textTransform: "capitalize",
-              bgcolor: "white",
+              bgcolor: "#fff",
+              ":hover": { bgcolor: "#fff" },
               color: "#FF5D00",
               fontWeight: "bold",
             }}
+            onClick={handleSendRequest}
           >
             Get Started
           </Button>
         </Box>
       </Box>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackBar.open}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        message={snackBar.message}
+        key={"top" + "center"}
+      />
     </>
   );
 }
